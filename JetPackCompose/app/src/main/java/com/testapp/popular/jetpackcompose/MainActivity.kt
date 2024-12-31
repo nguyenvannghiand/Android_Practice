@@ -17,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -30,11 +32,49 @@ class MainActivity : ComponentActivity() {
 		enableEdgeToEdge()
 		setContent {
 			JetPackComposeTheme {
-				CircleExample()
+				OvelappingCircleWithBlend()
 			}
 		}
 	}
 }
+
+@Preview(showBackground = true, widthDp = 320)
+@Composable
+fun GreetingPreview() {
+	JetPackComposeTheme {
+		OvelappingCircleWithBlend()
+	}
+}
+
+@Composable
+fun OvelappingCircleWithBlend() {
+	Column(
+		modifier = Modifier.fillMaxWidth().padding(16.dp),
+		verticalArrangement = Arrangement.Center,
+		horizontalAlignment = Alignment.CenterHorizontally
+	) {
+		val circleRadius = 200f
+		Canvas(modifier = Modifier.fillMaxSize()) {
+			drawCircle(
+				color = Color.Red,
+				radius = circleRadius,
+				style = Fill,
+			)
+			drawCircle(
+				color = Color.Green,
+				radius = circleRadius,
+				style = Stroke(width = 8.dp.toPx())
+			)
+			drawCircle(
+				color = Color.Blue,
+				radius = size.minDimension / 2f,
+				blendMode = BlendMode.ColorBurn
+			)
+		}
+	}
+
+}
+
 
 @Composable
 fun CircleExample() {
@@ -81,10 +121,3 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 	}
 }
 
-@Preview(showBackground = true, widthDp = 320)
-@Composable
-fun GreetingPreview() {
-	JetPackComposeTheme {
-		CircleExample()
-	}
-}
